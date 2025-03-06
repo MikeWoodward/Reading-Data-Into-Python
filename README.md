@@ -6,3 +6,4 @@ This is a work in progress.
 Here are the book chapters in order:
 * Text
 * Binary
+* CSV
