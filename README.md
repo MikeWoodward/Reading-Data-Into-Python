@@ -7,3 +7,4 @@ Here are the book chapters in order:
 * Text
 * Binary
 * CSV
+* Downloading
