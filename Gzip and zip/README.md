@@ -1,2 +1,2 @@
-# CSV data
-This is the demo code for reading in CSV data. 
+# Gzip and zip data
+These are the demo files for the Gzip and zip demos. 
