@@ -9,7 +9,7 @@ with open('RollingSystemDemand-2025-01-13T15_30_00.000Z-2025-01-14T15_30_00.000Z
                                   fieldnames=['code',
                                               'timestamp',
                                               'demand'])
-    # Read in every row
+    # Process every row
     for row in electric_csv:
         if row['code'] == "VD":
             consumed.append({
