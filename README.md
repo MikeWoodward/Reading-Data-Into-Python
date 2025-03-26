@@ -7,4 +7,15 @@ Here are the book chapters in order:
 * Text
 * Binary
 * CSV
-* Downloading
+* Downloading data
+* Gzip and zip
+* JSON
+* Microsoft Excel
+* Micosoft Word
+* Micosoft PowerPoint
+* XML
+* APIs
+* Scraping websites
+* Amazon S3
+* PDF
+* SQL databases
