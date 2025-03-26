@@ -1,2 +1,2 @@
-# JSON
-These are the demo files for the JSON demos. 
+# Microsoft PowerPoint
+These are the demo files for the Micosoft PowerPoint demos. 
