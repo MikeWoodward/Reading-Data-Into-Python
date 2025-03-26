@@ -1,2 +1,2 @@
-# JSON
-These are the demo files for the JSON demos. 
+# Microsoft Excel
+These are the files for the JSON Microsoft Excel demos. 
