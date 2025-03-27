@@ -39,21 +39,21 @@ build_sql = response.text[1:]
 with open('Chinook_Sqlite.sql', 'w') as sql:
     # The first character is a BOM - remove it
     sql.write(build_sql)
-#    
-## Building the database
-## =====================
+   
+# Building the database
+# =====================
 database = "chinook.db"
-#
-#try:
-#    conn = sqlite3.connect(database)  
-#    cursor = conn.cursor()
-#  
-#    cursor.executescript(build_sql)
-#    
-#    conn.commit()
-#    conn.close()
-#except sqlite3.Error as e:
-#    print("An error occurred:", e.args[0])
+
+try:
+   conn = sqlite3.connect(database)  
+   cursor = conn.cursor()
+ 
+   cursor.executescript(build_sql)
+   
+   conn.commit()
+   conn.close()
+except sqlite3.Error as e:
+   print("An error occurred:", e.args[0])
 
 # Querying the table
 # ==================
