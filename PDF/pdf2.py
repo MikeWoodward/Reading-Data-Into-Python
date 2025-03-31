@@ -68,7 +68,7 @@ for page_layout in extract_pages("2023.pdf"):
     y_values = sorted(list({2*round(x/2) for x in y_values}),
                       reverse=True)
 
-    # Intialize page table
+    # Initialize page table
     page_table = []
     for row_no in range(len(y_values) - 1):
         row = []
