@@ -40,13 +40,17 @@ file_path = zip_file_names[0]
 
 search_term = "Amazon"
 
-namespace = {"lei": "http://www.gleif.org/data/schema/leidata/2016"}
+namespace = {"lei":
+             "http://www.gleif.org/data"
+             "/schema/leidata/2016"}
 
-# Stream through the file, looking for LEIRecord elements
+# Stream through the file, looking for 
+# LEIRecord elements
 document = lxml.etree.iterparse(
     file_path,
     events=("end",),
-    tag="{http://www.gleif.org/data/schema/leidata/2016}LEIRecord"
+    tag=("{http://www.gleif.org/data/schema/"
+         "leidata/2016}LEIRecord")
 )
 
 # Loop through every element in the tree
@@ -55,17 +59,22 @@ for event, elem in document:
     # Extract LEI
     lei_elem = elem.find("lei:LEI",
                          namespaces=namespace)
-    lei = lei_elem.text if lei_elem is not None else None
+    lei = (lei_elem.text if lei_elem is not None
+           else None)
 
     # Extract Legal Name
     legal_name_elem = elem.find(
         "lei:Entity/lei:LegalName",
         namespaces=namespace
     )
-    legal_name = legal_name_elem.text if legal_name_elem is not None else None
+    legal_name = (legal_name_elem.text
+                  if legal_name_elem is not None
+                  else None)
 
-    # If we've got a a legal name and it matches, print out the matches
-    if legal_name and search_term.lower() in legal_name.lower():
+    # If we've got a legal name and it matches,
+    # print out the matches
+    if (legal_name and search_term.lower()
+            in legal_name.lower()):
         if search_term.lower() in legal_name.lower():
             print(f"LEI: {lei}, Legal Name: {legal_name}")
 
