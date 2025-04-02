@@ -9,7 +9,8 @@ Created on Sun Mar 19 21:08:11 2017
 from openpyxl import load_workbook
 from openpyxl.formula import Tokenizer
 
-wb = load_workbook(filename='databreachesineurope-publicdata.xlsx')
+wb = load_workbook(
+    filename='databreachesineurope-publicdata.xlsx')
 year_sheet = wb['Year']
 
 counter = 2
