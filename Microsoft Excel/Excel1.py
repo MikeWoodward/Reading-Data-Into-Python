@@ -15,8 +15,8 @@ print(f"Sheet names in workbook: {wb.sheetnames}")
 # Master sheet
 master_sheet = wb['Master']
 
-# Excel starts row numbering from 1 and we want to start from 
-# row 2, ignoring the header
+# Excel starts row numbering from 1 and we want to 
+# start from row 2, ignoring the header
 for index in range(2, master_sheet.max_row + 1):
     leak_date = master_sheet[f'C{index}'].value
     organization = master_sheet[f'D{index}'].value
