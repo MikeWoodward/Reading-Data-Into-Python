@@ -18,48 +18,55 @@ __summary__ = "One line summary"
 # -----------------------------------------------------------------------------
 from pptx import Presentation
 
-if __name__ == "__main__":
+presentation = Presentation(
+    "Presentation2.pptx")
 
-    presentation = Presentation("Presentation2.pptx")
+replacement_text = {
+    "#Company": "Cheapco",
+    "#Date": "2025-09-12",
+    "#Sales1": "Sales up from start of year",
+    "#Sales2": "Q1 shows highest sales growth",
+    "#Sales3": "Quarter end sales peak"}
 
-    replacement_text = {
-        "#Company": "Cheapco",
-        "#Date": "2025-09-12",
-        "#Sales1": "Sales up from start of year",
-        "#Sales2": "Q1 shows highest sales growth",
-        "#Sales3": "Quarter end sales peak"}
-    
-    replacement_images = {
-        "#CompanyLogo": "logo.png",
-        "#SalesChart": "cheapco_sales_chart_quarterly.png"
-        }
+replacement_images = {
+    "#CompanyLogo": "logo.png",
+    "#SalesChart":
+        "cheapco_sales_chart_quarterly.png"
+}
 
-    # Iterate therough every slide
-    for slide in presentation.slides:
-        # Iterate through shapes in each slide
-        for shape in slide.shapes:
-            
-            # Replace text
-            if shape.has_text_frame:
-                for old, new in replacement_text.items():
-                    shape.text_frame.text = \
-                        shape.text_frame.text.replace(old,
-                                                      new)
+# Iterate through every slide
+for slide in presentation.slides:
+    # Iterate through shapes in each slide
+    for shape in slide.shapes:
 
-            # Replace image
-            alt_text = (shape
-                        ._element
-                        ._nvXxPr
-                        .cNvPr
-                        .attrib
-                        .get("descr", ""))
-            if alt_text in replacement_images:
-                shape.element.getparent().remove(shape.element)
-                slide.shapes.add_picture(
-                    image_file=replacement_images[alt_text], 
-                    left=shape.left, 
-                    top=shape.top, 
-                    width=shape.width, 
-                    height=shape.height)
+        # Replace text
+        if shape.has_text_frame:
+            for old, new in (replacement_text
+                             .items()):
+                shape.text_frame.text = (
+                    shape
+                    .text_frame.
+                    text
+                    .replace(old, new))
 
-    presentation.save("Presentation3.pptx")
+        # Replace image
+        alt_text = (shape
+                    ._element
+                    ._nvXxPr
+                    .cNvPr
+                    .attrib
+                    .get("descr", ""))
+        if alt_text in replacement_images:
+            (shape
+             .element
+             .getparent()
+             .remove(shape.element))
+            slide.shapes.add_picture(
+                image_file=replacement_images[
+                    alt_text],
+                left=shape.left,
+                top=shape.top,
+                width=shape.width,
+                height=shape.height)
+
+presentation.save("Presentation3.pptx")

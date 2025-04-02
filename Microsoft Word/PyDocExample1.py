@@ -23,18 +23,22 @@ print("Properties subject: "
 # Get the paragraph information
 print("Zeroth paragraph")
 print("================")
-print(f"Paragraph 0 style: {document.paragraphs[0].style}")
-print(f"Paragraph 0 text: {document.paragraphs[0].text}")
-
-# Get the table of content information
+print("Paragraph 0 style: "
+      f"{document.paragraphs[0].style}")
+print("Paragraph 0 text: "
+      f"{document.paragraphs[0].text}")
 
 # Get table information
 print("Zeroth Table")
 print("============")
-print(f"Table rows: {len(document.tables[0].rows)}")
-print(f"Table columns: {len(document.tables[0].columns)}")
-print(f"Cell 1,1: {document.tables[0].rows[1].cells[1].text}")
-print(f"Cell 2,2: {document.tables[0].columns[2].cells[2].text}")
+print("Table rows: "
+      f"{len(document.tables[0].rows)}")
+print("Table columns: "
+      f"{len(document.tables[0].columns)}")
+print("Cell 1,1: "
+      f"{document.tables[0].rows[1].cells[1].text}")
+print("Cell 2,2: "
+      f"{document.tables[0].columns[2].cells[2].text}")
 
 # Get the footer
 print("Footer")
