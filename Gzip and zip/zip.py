@@ -10,9 +10,10 @@ import requests
 import zipfile
 
 # Get the Brazillian data
-res = requests.get(url='http://download.geonames.org'
-                   '/export/zip/BR.zip',
-                   timeout=10)
+res = requests.get(
+    url='http://download.geonames.org'
+    '/export/zip/BR.zip',
+    timeout=10)
 
 # Write to disk
 with open('BR.zip', 'wb') as zf:
@@ -31,7 +32,7 @@ with zipfile.ZipFile('BR.zip', 'r') as zf:
 
     # Read in the entire file
     readme = zf.read('readme.txt')
-    print("Start of readme: {0}:".format(readme[0:31]))
+    print(f"Start of readme: {readme[0:31]}.")
 
     # Open the BR file and read in data by line
     with zf.open('BR.txt') as br:

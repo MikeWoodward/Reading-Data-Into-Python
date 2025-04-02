@@ -13,10 +13,11 @@ from os.path import join
 # Dictionary to hold SSID names
 ssids = {}
 # Get all the names of the user files
-user_files = folders = glob(join('./UbiqLog4UCI',
-                                 '[0-9]*',
-                                 '*.txt'),
-                            recursive=True)
+user_files = folders = glob(
+    join('./UbiqLog4UCI',
+         '[0-9]*',
+         '*.txt'),
+    recursive=True)
 # Step through every user file
 for user_file in user_files:
     # Open the file, using unicode_escape
@@ -29,19 +30,22 @@ for user_file in user_files:
                 data = json.loads(line)
                 # Does the JSON contain WiFI and SSID?
                 if ('WiFi' in data.keys() and
-                    'SSID' in data['WiFi'].keys()):
+                        'SSID' in data['WiFi'].keys()):
                     ssid_value = data['WiFi']['SSID']
-                    # Increment the counter or add a new counter
+                    # Increment the counter or 
+                    # add a new counter
                     if ssid_value not in ssids.keys():
                         ssids[ssid_value] = 1
                     else:
                         ssids[ssid_value] += 1
             # Note exceptions and continue
             except ValueError as error:
-                print(f"ValueError in file {user_file}")
+                print("""ValueError in file """
+                      f"""{user_file}""")
                 continue
             except AttributeError as error:
-                print(f"AttributeError in file {user_file}")
+                print("""AttributeError in file """ 
+                      f"""{user_file}""")
                 continue
 # Sort the dictionary in descending order
 ssids_descend = sorted(ssids.items(),

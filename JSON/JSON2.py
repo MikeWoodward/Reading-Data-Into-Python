@@ -11,7 +11,8 @@ import requests
 
 # Download the file
 res = requests.get(
-    url="""https://data.cdc.gov/api/views/ebbj-sh54/"""
+    url="""https://data.cdc.gov/"""
+        """api/views/ebbj-sh54/"""
         """rows.json?accessType=DOWNLOAD""",
     timeout=10)
 with open('CDC.json',
