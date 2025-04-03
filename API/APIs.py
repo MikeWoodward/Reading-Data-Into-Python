@@ -1,3 +1,4 @@
+import sys
 import requests
 import keyring as kr
 import tldextract
@@ -18,7 +19,8 @@ def get_search_matches(*,
         None if no matches or an error.
     """
 
-    search_url = "https://api-eit.refinitiv.com:443/permid/search?"
+    search_url = ("https://api-eit.refinitiv.com"
+                  ":443/permid/search?")
     try:
         response = requests.get(
             search_url,
@@ -38,7 +40,8 @@ def get_search_matches(*,
         return None
 
     if response.status_code != 200:
-        print(f"Reponse code is {response.status_code}")
+        print("Reponse code is "
+              f"{response.status_code}")
         return None
 
     return response.json()
@@ -81,13 +84,18 @@ def get_company_match(*,
 
     return response.json()
 
+
 # %%
 token = kr.get_password("PermId",
                         "YOUR-EMAIL")
 
 # Get all smiths companies
-companies_json = get_search_matches(token=token,
-                                    pattern="smiths")
+companies_json = get_search_matches(
+    token=token,
+    pattern="smiths")
+
+if companies_json is None:
+    sys.exit()
 
 # %%
 # Locate the right smiths
@@ -104,23 +112,29 @@ for company in (companies_json
         print("=======================")
         print(f"Name: {company['organizationName']}")
         print(f"Ticker: {company['primaryTicker']}")
-        print(f"Type: {company['hasHoldingClassification']}")
-        print(f"PermId: {company['@id']}")    
+        print("Type: "
+              f"{company['hasHoldingClassification']}")
+        print(f"PermId: {company['@id']}")
         permid_url = company['@id']
-        
+
+if permid_url is None:
+    sys.exit()
+
 # %%
-# Get more data on the right smiths   
-if permid_url:
-    if (company
-        := get_company_match(token=token,
-                             permid_url=permid_url)):
-        print("Detailed company info")
-        print("=====================")
-        print("""Address: """
-              f"""{company['mdaas:HeadquartersAddress']}""")
-        print("""Phone: """
-              f"""{company['tr-org:hasHeadquartersPhoneNumber']}""")
-        print("""IPO date: """
-              f"""{company['hasIPODate']}""")
-        print("""LEI: """
-              f"""{company['tr-org:hasLEI']}""")
+# Get more data on the right smiths
+if (permid_url
+    and (company := get_company_match(
+        token=token,
+        permid_url=permid_url))):
+    print("Detailed company info")
+    print("=====================")
+    print(
+        """Address: """
+        f"""{company['mdaas:HeadquartersAddress']}""")
+    print(
+        """Phone: """
+        f"""{company['tr-org:hasHeadquartersPhoneNumber']}""")
+    print("""IPO date: """
+          f"""{company['hasIPODate']}""")
+    print("""LEI: """
+          f"""{company['tr-org:hasLEI']}""")
