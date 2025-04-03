@@ -1,8 +1,21 @@
 from bs4 import BeautifulSoup
+import urllib.robotparser
 from csv import writer
 from re import sub
 import requests
 import sys
+
+
+rp = urllib.robotparser.RobotFileParser()
+rp.set_url("https://en.wikipedia.org/robots.txt")
+rp.read()
+scrape_ok = rp.can_fetch('Python User Agent example',
+                         "https://en.wikipedia.org/robots.txt")
+if scrape_ok:
+    print("OK to scrape page")
+else:
+    sys.exit(0)
+
 
 # Getting web page data
 # =====================
