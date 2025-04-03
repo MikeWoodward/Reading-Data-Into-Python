@@ -34,11 +34,13 @@ def get1000(client, bucket):
     with open('the1000.csv', 'w') as file1000:
         the1000 = client.list_objects_v2(Bucket=bucket)
         for content in the1000[u'Contents']:
-            file1000.write('{0},{1}\n'.format(content[u'Key'],
-                                              content[u'Size']))
+            file1000.write('{0},{1}\n'.format(
+                content[u'Key'],
+                content[u'Size']))
 
-    print("By default, list_object_v2 has "\
-          "returned {0:,} keys".format(the1000['KeyCount']))
+    print("By default, list_object_v2 has "
+          "returned {0:,} keys".format(
+              the1000['KeyCount']))
 
 
 def getmore1000(client, bucket):
@@ -54,29 +56,33 @@ def getmore1000(client, bucket):
             key_count += page['KeyCount']
             for content in page[u'Contents']:
                 filemore.write('{0},{1}\n'.format(
-                        content[u'Key'], content[u'Size']))
-                
-    print("With pagination, list_object_v2 has "\
+                    content[u'Key'], content[u'Size']))
+
+    print("With pagination, list_object_v2 has "
           "returned {0:,} keys".format(key_count))
 
 
 def download_samples(client, bucket):
     """Download sample files"""
-    events = client.list_objects_v2(Bucket=bucket,
-                                    Prefix='v2/events/2016112416')
+    events = client.list_objects_v2(
+        Bucket=bucket,
+        Prefix='v2/events/2016112416')
     s3 = session.resource('s3')
     s3bucket = s3.Bucket(bucket)
     for content in events['Contents']:
-        print("File {0} is {1:,} bytes".format(content['Key'],
-                                               content['Size']))
-        s3bucket.download_file(content['Key'],
-                               content['Key'].rsplit('/', 1)[1])
+        print("File {0} is {1:,} bytes".format(
+            content['Key'],
+            content['Size']))
+        s3bucket.download_file(
+            content['Key'],
+            content['Key'].rsplit('/', 1)[1])
 
 
 def process_sample():
     """Open one of the files and parse it"""
     actors = set()
-    with open('20161124164500.export.csv', 'r') as csvfile:
+    with (open('20161124164500.export.csv', 'r')
+          as csvfile):
         events_csv = csv.reader(csvfile, delimiter='\t')
         for row in events_csv:
             desc = {'date': row[1],
@@ -86,6 +92,7 @@ def process_sample():
             actors.add(row[16])
     print("Actors mentioned.")
     print(sorted(actors))
+
 
 ACCESS_KEY = os.environ['ACCESS_KEY']
 SECRET_KEY = os.environ['SECRET_KEY']
