@@ -52,20 +52,24 @@ for page_layout in extract_pages("2023.pdf"):
             continue
         if isinstance(element, LTRect):
             if element.width < 1:
-                x_values.append((element.x0 + element.x1)/2)
+                x_values.append((element.x0 
+                                 + element.x1)/2)
                 y_values.append(element.y0)
                 y_values.append(element.y1)
             elif element.height < 1:
                 x_values.append(element.x0)
                 x_values.append(element.x1)
-                y_values.append((element.y0 + element.y1)/2)
+                y_values.append((element.y0 
+                                 + element.y1)/2)
             else:
                 x_values.append(element.x0)
                 x_values.append(element.x1)
                 y_values.append(element.y0)
                 y_values.append(element.y1)
-    x_values = sorted(list({2*round(x/2) for x in x_values}))
-    y_values = sorted(list({2*round(x/2) for x in y_values}),
+    x_values = sorted(list({2*round(x/2) 
+                            for x in x_values}))
+    y_values = sorted(list({2*round(x/2) 
+                            for x in y_values}),
                       reverse=True)
 
     # Initialize page table
