@@ -26,15 +26,15 @@ url = ("""https://leidata-preview.gleif.org/"""
 
 # Download the file
 res = requests.get(
-    url=url,
-    timeout=10)
+  url=url,
+  timeout=10)
 with open('population.zip',
           'wb') as xml_file:
-    xml_file.write(res.content)
+  xml_file.write(res.content)
 # Unzip the XML
 with zipfile.ZipFile('population.zip', 'r') as zf:
-    zip_file_names = zf.namelist()
-    zf.extractall()
+  zip_file_names = zf.namelist()
+  zf.extractall()
 
 file_path = zip_file_names[0]
 
@@ -47,40 +47,40 @@ namespace = {"lei":
 # Stream through the file, looking for 
 # LEIRecord elements
 document = lxml.etree.iterparse(
-    file_path,
-    events=("end",),
-    tag=("{http://www.gleif.org/data/schema/"
-         "leidata/2016}LEIRecord")
+  file_path,
+  events=("end",),
+  tag=("{http://www.gleif.org/data/schema/"
+       "leidata/2016}LEIRecord")
 )
 
 # Loop through every element in the tree
 for event, elem in document:
 
-    # Extract LEI
-    lei_elem = elem.find("lei:LEI",
-                         namespaces=namespace)
-    lei = (lei_elem.text if lei_elem is not None
-           else None)
+  # Extract LEI
+  lei_elem = elem.find("lei:LEI",
+                       namespaces=namespace)
+  lei = (lei_elem.text if lei_elem is not None
+         else None)
 
-    # Extract Legal Name
-    legal_name_elem = elem.find(
-        "lei:Entity/lei:LegalName",
-        namespaces=namespace
-    )
-    legal_name = (legal_name_elem.text
-                  if legal_name_elem is not None
-                  else None)
+  # Extract Legal Name
+  legal_name_elem = elem.find(
+    "lei:Entity/lei:LegalName",
+    namespaces=namespace
+  )
+  legal_name = (legal_name_elem.text
+                if legal_name_elem is not None
+                else None)
 
-    # If we've got a legal name and it matches,
-    # print out the matches
-    if (legal_name and search_term.lower()
-            in legal_name.lower()):
-        if search_term.lower() in legal_name.lower():
-            print(f"LEI: {lei}, Legal Name: {legal_name}")
+  # If we've got a legal name and it matches,
+  # print out the matches
+  if (legal_name and search_term.lower()
+      in legal_name.lower()):
+    if search_term.lower() in legal_name.lower():
+      print(f"LEI: {lei}, Legal Name: {legal_name}")
 
-    # Free memory by clearing processed elements
-    elem.clear()
-    while elem.getprevious() is not None:
-        del elem.getparent()[0]
+  # Free memory by clearing processed elements
+  elem.clear()
+  while elem.getprevious() is not None:
+    del elem.getparent()[0]
 
 del document  # Ensure proper cleanup

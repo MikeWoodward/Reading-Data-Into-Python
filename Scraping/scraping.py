@@ -5,12 +5,14 @@ from re import sub
 import requests
 import sys
 
-
+# OK to scrape page?
+# ==================
 rp = urllib.robotparser.RobotFileParser()
 rp.set_url("https://en.wikipedia.org/robots.txt")
 rp.read()
-scrape_ok = rp.can_fetch('Python User Agent example',
-                         "https://en.wikipedia.org/robots.txt")
+scrape_ok = rp.can_fetch(
+    'Python User Agent example',
+    "https://en.wikipedia.org/robots.txt")
 if scrape_ok:
     print("OK to scrape page")
 else:
@@ -23,7 +25,9 @@ url = 'https://en.wikipedia.org/wiki/' \
       'List_of_tallest_buildings_and_structures'
 headers = {'User-Agent': 'Python User Agent example'}
 try:
-    response = requests.get(url, headers=headers, timeout=10)
+    response = requests.get(url,
+                            headers=headers,
+                            timeout=10)
 except requests.ConnectionError as e:
     print('Couldn\'t reach the server.')
     print('Reason: ', e)
@@ -45,9 +49,10 @@ rows = table.find_all('tr')
 buildings = []
 
 # Headings
-buildings.append([header.string for header in rows[0].find_all('th')])
+buildings.append([header.string
+                  for header in rows[0].find_all('th')])
 
-# Data
+# Parse data
 for row in rows[1:]:
     items = row.find_all('td')
     line1 = [sub(r'\[\d+\]', r'', item.text.strip())

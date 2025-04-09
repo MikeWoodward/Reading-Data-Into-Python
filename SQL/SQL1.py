@@ -19,7 +19,9 @@ url = 'https://raw.githubusercontent.com/lerocha' \
 headers = {'User-Agent': 'Python User Agent'}
 
 try:
-    response = requests.get(url, headers=headers, timeout=10)
+    response = requests.get(url, 
+                            headers=headers, 
+                            timeout=10)
 except requests.ConnectionError as e:
     print('Couldn\'t reach the server.')
     print('Reason: ', e)
@@ -29,7 +31,8 @@ except requests.Timeout as e:
     print( 'Reason: ', e)
     sys.exit(1)
 if response.status_code != 200:
-    print('Error status code {0}'.format(response.status_code))
+    print('Error status code {0}'.format(
+        response.status_code))
     sys.exit(1)
 
 # Strip off the BOM
@@ -80,7 +83,8 @@ with sqlite3.connect(database) as conn:
              order by 
                country, city"""
     cursor.execute(sql)
-    print('Columns are {0}'.format([c[0] for c in cursor.description]))
+    print('Columns are {0}'.format(
+        [c[0] for c in cursor.description]))
     city_country = cursor.fetchall()
     print(city_country)
     print()

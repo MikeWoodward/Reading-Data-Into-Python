@@ -1,13 +1,13 @@
 from pdfminer.high_level import extract_pages
-from pdfminer.layout import (LTTextContainer, 
-                             LTRect, 
+from pdfminer.layout import (LTTextContainer,
+                             LTRect,
                              LTChar)
 import sys
 import csv
 import requests
 
 
-def add_text_to_cell(table: list, 
+def add_text_to_cell(table: list,
                      element: LTChar) -> None:
     """Finds the cell the text should be added to."""
     for cell in [cell for row in table for cell in row]:
@@ -16,6 +16,7 @@ def add_text_to_cell(table: list,
             and element.y0 >= cell['y0']
                 and element.y1 <= cell['y1']):
             cell['text'] += element.get_text()
+
 
 # Download 2023 table
 url = ("""https://www.mass.gov/doc/"""
@@ -31,16 +32,16 @@ with open("2023.pdf", "wb") as f:
 table = []
 # Iterate through every page
 for page_layout in extract_pages("2023.pdf"):
-    
+
     # Find the top of the table on the page
     top_of_table = sys.maxsize
     text_markers = [
-        "Data Breach Notification Report", 
+        "Data Breach Notification Report",
         "The total number of breaches affecting"]
     for element in page_layout:
         if isinstance(element, LTTextContainer):
-            if any(marker in element.get_text() 
-                   for marker in text_markers): 
+            if any(marker in element.get_text()
+                   for marker in text_markers):
                 if element.y0 < top_of_table:
                     top_of_table = element.y0
 
@@ -52,23 +53,23 @@ for page_layout in extract_pages("2023.pdf"):
             continue
         if isinstance(element, LTRect):
             if element.width < 1:
-                x_values.append((element.x0 
+                x_values.append((element.x0
                                  + element.x1)/2)
                 y_values.append(element.y0)
                 y_values.append(element.y1)
             elif element.height < 1:
                 x_values.append(element.x0)
                 x_values.append(element.x1)
-                y_values.append((element.y0 
+                y_values.append((element.y0
                                  + element.y1)/2)
             else:
                 x_values.append(element.x0)
                 x_values.append(element.x1)
                 y_values.append(element.y0)
                 y_values.append(element.y1)
-    x_values = sorted(list({2*round(x/2) 
+    x_values = sorted(list({2*round(x/2)
                             for x in x_values}))
-    y_values = sorted(list({2*round(x/2) 
+    y_values = sorted(list({2*round(x/2)
                             for x in y_values}),
                       reverse=True)
 
@@ -77,11 +78,12 @@ for page_layout in extract_pages("2023.pdf"):
     for row_no in range(len(y_values) - 1):
         row = []
         for column_no in range(len(x_values) - 1):
-            row.append({'x0': x_values[column_no] - 2,
-                        'x1': x_values[column_no + 1] + 2,
-                        'y0': y_values[row_no + 1] - 2,
-                        'y1': y_values[row_no] + 2,
-                        'text': ''})
+            row.append(
+                {'x0': x_values[column_no] - 2,
+                 'x1': x_values[column_no + 1] + 2,
+                 'y0': y_values[row_no + 1] - 2,
+                 'y1': y_values[row_no] + 2,
+                 'text': ''})
         page_table.append(row)
 
     # Assign text content to page table cells
@@ -91,8 +93,8 @@ for page_layout in extract_pages("2023.pdf"):
         if isinstance(element, LTTextContainer):
             for text_line in element:
                 for character in text_line:
-                    if isinstance(character, LTChar):            
-                        add_text_to_cell(page_table, 
+                    if isinstance(character, LTChar):
+                        add_text_to_cell(page_table,
                                          character)
 
     # Build output table
