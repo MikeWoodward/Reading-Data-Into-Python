@@ -1,2 +1,2 @@
 # Binary data
-This is the demo code for reading in binary data. 
+This is the demo code for the chapter on reading in binary data. 
