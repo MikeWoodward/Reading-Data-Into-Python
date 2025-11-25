@@ -31,16 +31,14 @@ def get_pdf_files(year_start, year_stop):
 
         print("Downloading file for year {0}".format(year))
 
-        # MA changed the download label, but it wasn't 
-        # consistently changed
-        if year in [2018, 2016, 2015, 2014, 2013, 2012, 2011,
+        # MA changes the download label in 2019
+        if year in [2021, 2020, 2019, 2017]:
+            url = ("""https://www.mass.gov/doc/"""
+                   """data-breach-report-{0}/download""").format(year)
+        elif year in [2018, 2016, 2015, 2014, 2013, 2012, 2011,
                       2010, 2009, 2008, 2007]:
             url = ("""https://www.mass.gov/doc/"""
-                   f"""data-breach-report-{year}-0/download""")        
-        else:
-            url = ("""https://www.mass.gov/doc/"""
-                   f"""data-breach-report-{year}/download""")
-            
+                   """data-breach-report-{0}-0/download""").format(year)
         r = http.request('GET', url, timeout=10)
         if r.status != 200:
             print("""Error code {0} reported downloading """
@@ -60,10 +58,6 @@ def get_pdf_files(year_start, year_stop):
 def extract_text_lines(tree, texts, lines):
     """Gets text and line data from tree. Recursive function."""
     for branch in tree:
-        print(type(branch))
-        if isinstance(branch, LTTextBox):
-            print(branch.get_text())
-            pass
         if isinstance(branch, LTLine):
             lines.append(branch)
         elif isinstance(branch, LTTextLine):
@@ -191,19 +185,21 @@ class PDFProcessor():
 
 if __name__ == "__main__":
     # Copy the PDF files from the website
-    breach_files = get_pdf_files(2023, 2025)
+    brch_files = get_pdf_files(2007, 2021)
+
+    brch_files = sorted(glob.glob("*.pdf"))
 
     pdf_processor = PDFProcessor()
 
     # Loop through each of the files
-    for breach_file in breach_files:
+    for brch_file in brch_files:
 
         # List that contains all the breaches for the year
         breach_year = []
 
         # If we can't initialize the file, process the
         # next file
-        if not pdf_processor.doc_init(breach_file):
+        if not pdf_processor.doc_init(brch_file):
             continue
 
         # Process each page in the PDF
@@ -216,7 +212,7 @@ if __name__ == "__main__":
             breach_year.append(breach_page)
 
         # Write the results to disk
-        with open(breach_file.replace('.pdf', '.csv'), 
+        with open(brch_file.replace('.pdf', '.csv'), 
                   'wt') as year_csv:
             csv_file = csv.writer(year_csv)
             csv_file.writerow(header)

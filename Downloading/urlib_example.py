@@ -1,8 +1,8 @@
 import urllib
 
-url = ("https://www.marineband.marines.mil"
-       "/Portals/175/Docs/Audio/Taps/"
-       "Taps_Matt_Harding.mp3")
+url = ("""http://www.marseillaise.org"""
+       """/audio/mireille_mathieu_-_"""
+       """la_marseillaise.mp3""")
 
 web_resource = (urllib
                 .request
@@ -11,5 +11,5 @@ web_resource = (urllib
 
 mp3_data = web_resource.read()
 
-with open("taps.mp3", 'wb') as f:
+with open("La Marseillaise.mp3", 'wb') as f:
     f.write(mp3_data)

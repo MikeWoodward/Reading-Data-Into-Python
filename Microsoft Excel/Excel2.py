@@ -9,22 +9,21 @@ Created on Sun Mar 19 21:08:11 2017
 from openpyxl import load_workbook
 from openpyxl.formula import Tokenizer
 
-wb = load_workbook(
-  filename='databreachesineurope-publicdata.xlsx')
+wb = load_workbook(filename='databreachesineurope-publicdata.xlsx')
 year_sheet = wb['Year']
 
 counter = 2
 while True:
-  year = year_sheet[f'A{counter}'].value
+    year = year_sheet['A{0}'.format(counter)].value
 
-  if year is None or 'TOTAL' == year:
-    break
+    if year is None or 'TOTAL' == year:
+        break
 
-  volume = year_sheet[f'B{counter}'].value
+    volume = year_sheet['B{0}'.format(counter)].value
 
-  volume_tokens = Tokenizer(volume)
+    volume_tokens = Tokenizer(volume)
 
-  print(year)
-  print(volume_tokens.items)
+    print(year)
+    print(volume_tokens.items)
 
-  counter += 1
+    counter += 1
