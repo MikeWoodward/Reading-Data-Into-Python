@@ -1,2 +1,2 @@
 # CSV data
-This is the demo code for reading in CSV data. 
+This is the demo code for the chpater on reading in CSV data. 
