@@ -6,6 +6,12 @@ Created on Fri Jul 28 12:01:41 2023
 @author: mikewoodward
 """
 
+"""
+Download this MP3 file from 
+https://anzacportal.dva.gov.au/sites/default/files/audio/the-last-post.mp3
+to the fodler that contains this code.
+"""
+
 # Using context manager
 with open("the-last-post.mp3", "rb") as lastpost:
   lastpost_mp3 = lastpost.read()
