@@ -6,6 +6,13 @@ Created on Fri Jul 28 12:01:41 2023
 @author: mikewoodward
 """
 
+"""
+Copy the file "artofwar.txt" from the website
+https://suntzusaid.com/download.php?file=txt
+to the local folder where you're running this
+code from.
+"""
+
 # Simplest example
 text = open("artofwar.txt", "r").read()
 print(text[0:100])
