@@ -80,8 +80,7 @@ def download_samples(client, bucket):
 
 def process_sample():
     """Open one of the files and parse it"""
-    actors = set()
-    with (open('20161124164500.export.csv', 'r')
+    actors = set()    with (open('20161124164500.export.csv', 'r')
           as csvfile):
         events_csv = csv.reader(csvfile, delimiter='\t')
         for row in events_csv:
