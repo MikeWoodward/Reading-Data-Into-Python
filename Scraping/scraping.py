@@ -6,7 +6,8 @@ import requests
 import sys
 
 user_agent_string = "Python User Agent"
-wikipedia_page = "https://en.wikipedia.org/wiki/List_of_tallest_buildings"
+wikipedia_page = (
+  "https://en.wikipedia.org/wiki/List_of_tallest_buildings")
 
 # OK to scrape page?
 # ==================
@@ -33,7 +34,8 @@ print("Getting web page")
 print("----------------")
 try:
     response = requests.get(url=wikipedia_page,
-                            headers={'User-Agent': user_agent_string},
+                            headers={'User-Agent': 
+                                     user_agent_string},
                             timeout=10)
 except requests.ConnectionError as e:
     print('Couldn\'t reach the server.')
@@ -73,7 +75,7 @@ for heading in rows[0].find_all("th"):
       text = sub(r'\[\d+\]', r'', heading.text.strip())
       headers.append(f"{text} ({sub_head})")
       
-# Set up the buildings data structure
+# Set up the grid data structure
 column_count = len(headers)
 row_count = len(rows[1:])
 # Pre-allocate grid, note row size
