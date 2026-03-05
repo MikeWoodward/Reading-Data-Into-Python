@@ -33,7 +33,8 @@ def get_search_matches(
   except requests.Timeout:
     print("""Timeout error.""")
     return None
-  except requests.exceptions.ConnectionError as err:
+  except (
+      requests.exceptions.ConnectionError) as err:
     print(f"""ConnectionError {err}""")
     return None
   except requests.RequestException as err:
@@ -73,7 +74,8 @@ def get_company_match(
   except requests.Timeout:
     print("""Timeout error.""")
     return None
-  except requests.exceptions.ConnectionError as err:
+  except (
+      requests.exceptions.ConnectionError) as err:
     print(f"""ConnectionError {err}""")
     return None
   except requests.RequestException as err:
@@ -81,7 +83,8 @@ def get_company_match(
     return None
 
   if response.status_code != 200:
-    print(f"Reponse code is {response.status_code}")
+    print("Reponse code is "
+          f"{response.status_code}")
     return None
 
   return response.json()
@@ -131,13 +134,13 @@ if (permid_url
   print("Detailed company info")
   print("=====================")
   print(
-    """Address: """
-    f"""{company['mdaas:HeadquartersAddress']}""")
+    "Address: "
+    f"{company['mdaas:HeadquartersAddress']}")
   print(
-    """Phone: """
-    f"""{company['tr-org:hasHeadquartersPhoneNumber']}""")
-  print("""IPO date: """
-        f"""{company['hasIPODate']}""")
+    "Phone: "
+    f"{company['tr-org:hasHeadquartersPhoneNumber']}")
+  print("IPO date: "
+        f"{company['hasIPODate']}")
   print("""LEI: """
-        f"""{company['tr-org:hasLEI']}""")
+        f"{company['tr-org:hasLEI']}")
   

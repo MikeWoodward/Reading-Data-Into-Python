@@ -6,23 +6,16 @@ Created on Fri Mar  7 16:19:23 2025
 @author: mikewoodward
 """
 
-# %%---------------------------------------------------------------------------
-# Module metadata
-# -----------------------------------------------------------------------------
-__author__ = "mikewoodward"
-__license__ = "MIT"
-__summary__ = "One line summary"
-
-
 import requests
 import zipfile
 import lxml
 import lxml.etree
 
-url = ("""https://leidata-preview.gleif.org/"""
-       """storage/golden-copy-files/2025/03/07/"""
-       """1051171/20250307-1600-gleif-goldencopy"""
-       """-lei2-golden-copy.xml.zip#""")
+url = (
+  """https://leidata-preview.gleif.org/"""
+  """storage/golden-copy-files/2025/03/07/"""
+  """1051171/20250307-1600-gleif-goldencopy"""
+  """-lei2-golden-copy.xml.zip#""")
 
 # Download the file
 res = requests.get(
@@ -32,7 +25,8 @@ with open('population.zip',
           'wb') as xml_file:
   xml_file.write(res.content)
 # Unzip the XML
-with zipfile.ZipFile('population.zip', 'r') as zf:
+with zipfile.ZipFile('population.zip', 
+                     'r') as zf:
   zip_file_names = zf.namelist()
   zf.extractall()
 
@@ -75,8 +69,10 @@ for event, elem in document:
   # print out the matches
   if (legal_name and search_term.lower()
       in legal_name.lower()):
-    if search_term.lower() in legal_name.lower():
-      print(f"LEI: {lei}, Legal Name: {legal_name}")
+    if (search_term.lower() 
+        in legal_name.lower()):
+      print(
+        f"LEI: {lei}, Legal Name: {legal_name}")
 
   # Free memory by clearing processed elements
   elem.clear()

@@ -13,7 +13,7 @@ from os.path import join
 # Dictionary to hold SSID names
 ssids = {}
 # Get all the names of the user files
-user_files = folders = glob(join('./UbiqLog4UCI',
+user_files = glob(join('./UbiqLog4UCI',
                                  '[0-9]*',
                                  '*.txt'),
                             recursive=True)
