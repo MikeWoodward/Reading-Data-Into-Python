@@ -37,14 +37,18 @@ print("Table rows: "
       f"{len(document.tables[0].rows)}")
 print("Table columns: "
       f"{len(document.tables[0].columns)}")
-print("Cell 1,1: "
-      f"{document.tables[0].rows[1].cells[1].text}")
-print("Cell 2,2: "
-      f"{document.tables[0].columns[2].cells[2].text}")
+# Reference the table and section first
+tab = document.tables[0]
+sec = document.sections[0]
+
+# Extract cell text
+c1 = tab.rows[1].cells[1].text
+print(f"Cell 1,1: {c1}")
+
+c2 = tab.columns[2].cells[2].text
+print(f"Cell 2,2: {c2}")
 
 # Get the footer
-print("Footer")
-print("======")
-print(
-  "The footer is: "
-  f"{document.sections[0].footer.paragraphs[0].text}")
+print("Footer\n======")
+f_text = sec.footer.paragraphs[0].text
+print(f"The footer is: {f_text}")

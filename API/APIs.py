@@ -5,9 +5,9 @@ import tldextract
 
 
 def get_search_matches(
-    *,
-    token: str,
-    pattern: str) -> None | dict:
+  *,
+  token: str,
+      pattern: str) -> None | dict:
   """
   Function to get all permid matches to pattern.
 
@@ -20,8 +20,9 @@ def get_search_matches(
     None if no matches or an error.
   """
 
-  search_url = ("https://api-eit.refinitiv.com"
-                ":443/permid/search?")
+  search_url = (
+    "https://api-eit.refinitiv.com"
+    ":443/permid/search?")
   try:
     response = requests.get(
       search_url,
@@ -29,12 +30,13 @@ def get_search_matches(
       params={'q': pattern,
               "entityType": 'organization'},
       timeout=(5, 5)
-      )
+    )
   except requests.Timeout:
     print("""Timeout error.""")
     return None
   except (
-      requests.exceptions.ConnectionError) as err:
+      requests.exceptions.ConnectionError
+      ) as err:
     print(f"""ConnectionError {err}""")
     return None
   except requests.RequestException as err:
@@ -50,11 +52,12 @@ def get_search_matches(
 
 
 def get_company_match(
-    *,
-    token: str,
-    permid_url: str) -> dict:
+  *,
+  token: str,
+      permid_url: str) -> dict:
   """
-  Function to get company data from a PermId url.
+  Function to get company data from a 
+  PermId url.
 
   Args:
     token (str): the access token
@@ -66,16 +69,17 @@ def get_company_match(
   """
   try:
     response = requests.get(
-      permid_url,
-      params={'format': 'json-ld'},
-      headers={'access-token': token},
-      timeout=(5, 5)
-      )
+        permid_url,
+        params={'format': 'json-ld'},
+        headers={'access-token': token},
+        timeout=(5, 5)
+    )
   except requests.Timeout:
     print("""Timeout error.""")
     return None
   except (
-      requests.exceptions.ConnectionError) as err:
+      requests.exceptions.ConnectionError
+      ) as err:
     print(f"""ConnectionError {err}""")
     return None
   except requests.RequestException as err:
@@ -110,37 +114,37 @@ for company in (companies_json
                 ['organizations']
                 ['entities']):
   if ('hasURL' in company
-      and (tldextract
-           .extract(company['hasURL'])
-           .registered_domain) == 'smiths.com'):
+    and (tldextract
+         .extract(company['hasURL'])
+         .registered_domain) == 'smiths.com'):
     print("High level company info")
     print("=======================")
-    print(f"Name: {company['organizationName']}")
-    print(f"Ticker: {company['primaryTicker']}")
-    print("Type: "
-          f"{company['hasHoldingClassification']}")
+    cot = company['hasHoldingClassification']
+    nom = company['organizationName']
+    tic = company['primaryTicker']
+    print(f"Name: {nom}")
+    print(f"Ticker: {tic}")
+    print(f"Type: {cot}")
     print(f"PermId: {company['@id']}")
     permid_url = company['@id']
 
 if permid_url is None:
-    sys.exit()
+  sys.exit()
 
 # %%
 # Get more data on the right smiths
 if (permid_url
-    and (company := get_company_match(
-        token=token,
-        permid_url=permid_url))):
+  and (company := get_company_match(
+      token=token,
+      permid_url=permid_url))):
   print("Detailed company info")
   print("=====================")
-  print(
-    "Address: "
-    f"{company['mdaas:HeadquartersAddress']}")
-  print(
-    "Phone: "
-    f"{company['tr-org:hasHeadquartersPhoneNumber']}")
+  add = company['mdaas:HeadquartersAddress']
+  pho = company[
+    'tr-org:hasHeadquartersPhoneNumber']
+  print(f"Address: {add}")
+  print(f"Phone: {pho}")
   print("IPO date: "
         f"{company['hasIPODate']}")
   print("""LEI: """
         f"{company['tr-org:hasLEI']}")
-  
