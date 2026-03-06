@@ -7,7 +7,8 @@ import sys
 
 user_agent_string = "Python User Agent"
 wikipedia_page = (
-  "https://en.wikipedia.org/wiki/List_of_tallest_buildings")
+  "https://en.wikipedia.org/wiki/"
+  "List_of_tallest_buildings")
 
 # OK to scrape page?
 # ==================
@@ -15,8 +16,8 @@ print("Checking robots.txt")
 print("-------------------")
 r = requests.get(
     "https://en.wikipedia.org/robots.txt",
-    headers={"User-Agent": user_agent_string}
-)
+    headers={"User-Agent": 
+             user_agent_string})
 rp = urllib.robotparser.RobotFileParser()
 rp.parse(r.text.splitlines())
 scrape_ok = rp.can_fetch(user_agent_string, 
@@ -33,10 +34,11 @@ else:
 print("Getting web page")
 print("----------------")
 try:
-    response = requests.get(url=wikipedia_page,
-                            headers={'User-Agent': 
-                                     user_agent_string},
-                            timeout=10)
+  response = requests.get(
+    url=wikipedia_page,
+    headers={'User-Agent': 
+             user_agent_string},
+    timeout=10)
 except requests.ConnectionError as e:
     print('Couldn\'t reach the server.')
     print('Reason: ', e)
@@ -70,9 +72,12 @@ for heading in rows[0].find_all("th"):
   # Parse headers that span two columns
   elif int(heading.get('colspan', 1)) == 2: 
     # Parse the subheader from the next row
-    for sub_head in [h.text.strip() 
-                     for h in rows[1].find_all("th")]:
-      text = sub(r'\[\d+\]', r'', heading.text.strip())
+    for sub_head in [
+        h.text.strip() for h in 
+        rows[1].find_all("th")]:
+      text = sub(r'\[\d+\]', 
+                 r'', 
+                 heading.text.strip())
       headers.append(f"{text} ({sub_head})")
       
 # Set up the grid data structure
@@ -88,24 +93,30 @@ for col_index, header in enumerate(headers):
   
 # Parse data into grid
 # Loop through every data row
-for row_index, row in enumerate(rows[2:], start = 1):
+for row_index, row in enumerate(rows[2:], 
+                                start = 1):
   elements = row.find_all('td')
   # Loop through every element in row
-  for element_index, element in enumerate(elements):
+  for element_index, element in \
+    enumerate(elements):
     element_text = sub(r'\[\d+\]', 
                        r'', 
                        element.text.strip())
     # Insert into first non-None column
-    for col_index in range(element_index, column_count):
+    for col_index in range(
+        element_index, column_count):
       if grid[row_index][col_index] is None:
-        grid[row_index][col_index] = element_text
+        grid[row_index][col_index] = \
+          element_text
         break
-    # Row span - paste value into appropriate column
+    # Row span - paste value into 
+    # appropriate column
     row_span = int(element.get('rowspan', 1)) 
     if row_span > 1:
        for i in range(1, row_span):
          if row_index + i < row_count: 
-           grid[row_index + i][col_index] = element_text
+           grid[row_index + i][col_index] = \
+             element_text
 
 # Output data
 # ===========
