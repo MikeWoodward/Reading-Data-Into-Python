@@ -9,13 +9,15 @@ import requests
 
 def add_text_to_cell(table: list,
                      element: LTChar) -> None:
-    """Finds the cell the text should be added to."""
-    for cell in [cell for row in table for cell in row]:
-        if (element.x0 >= cell['x0']
-            and element.x1 <= cell['x1']
-            and element.y0 >= cell['y0']
-                and element.y1 <= cell['y1']):
-            cell['text'] += element.get_text()
+  """Finds the cell the text should be added to."""
+  for cell in [cell 
+               for row in table 
+               for cell in row]:
+    if (element.x0 >= cell['x0']
+      and element.x1 <= cell['x1']
+      and element.y0 >= cell['y0']
+          and element.y1 <= cell['y1']):
+      cell['text'] += element.get_text()
 
 
 # Download 2023 table
